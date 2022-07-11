@@ -90,7 +90,7 @@ int main()
     {
         int n,k;
         cin>>n>>k;
-        unordered_map<ll,vector<int>> inds;
+        map<ll,vector<int>> inds;
         vector<ll> arr(n);
         for(int i=0;i<n;i++)
         {
