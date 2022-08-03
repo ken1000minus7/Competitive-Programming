@@ -1,4 +1,6 @@
 *.bin
 *.exe
+*.class
+*.jar
 .vscode
 .cph
