@@ -118,7 +118,8 @@ int main()
         }
         else
         {
-            cout<<2<<"\n";
+            if((b%d==0 && c%a==0) || (d%b==0 && a%c==0)) cout<<1<<"\n";
+            else cout<<2<<"\n";
         }
     }
     return 0;
