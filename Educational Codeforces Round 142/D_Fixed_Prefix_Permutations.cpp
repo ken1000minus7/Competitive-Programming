@@ -81,27 +81,67 @@ using namespace std;
 
 */
 
+class TrieNode {
+    public:
+    int val;
+    vector<TrieNode*> children;
+    TrieNode(int val, int n) {
+        this->val = val;
+        children = vector<TrieNode*>(n + 1);
+    }
+};
+
+void insert(TrieNode* root, vector<int> &v) {
+    for(int i = 0; i < v.size(); i++) {
+        if(!root->children[v[i]]) root->children[v[i]] = new TrieNode(v[i], v.size());
+        root = root->children[v[i]];
+    }
+}
+
 int main()
 {
     FIO
     int t;
     cin >> t;
     while(t--) {
-        ll a1, a2, a3, a4;
-        cin >> a1 >> a2 >> a3 >> a4;
-        ll ans = a1;
-        if(a1 == 0) {
-            cout << 1 << "\n";
-            continue;
+        int n, m;
+        cin >> n >> m;
+        vector<vector<int>> perms(n, vector<int>(m));
+        vector<vector<int>> invs(n, vector<int>(m));
+        TrieNode* root = new TrieNode(0, m);
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < m; j++) {
+                cin >> perms[i][j];
+                perms[i][j]--;
+                invs[i][perms[i][j]] = j;
+            }
+            insert(root, invs[i]);
         }
-        ans += 2 * min(a2, a3);
-        ll left = max(a2, a3) - min(a2, a3);
-        ans += min(a1, left);
-        a1 -= left;
-        if(a1 < 0) ans++;
-        else if(a1 < a4) ans += a1 + 1;
-        else ans += a4;
-        cout << ans << '\n';
+        // sort(all(perms));
+        // for(int i = 0; i < n; i++) {
+        //     for(int j = 0; j < m; j++) {
+        //         cout << perms[i][j] << " ";
+        //     }
+        //     cout << "\n";
+        // }
+        // cout << "\n";
+        // for(int i = 0; i < n; i++) {
+        //     for(int j = 0; j < m; j++) {
+        //         cout << invs[i][j] << " ";
+        //     }
+        //     cout << "\n";
+        // }
+        for(int i = 0; i < n; i++) {
+            int ans = 0;
+            TrieNode* temp = root;
+            for(int j = 0; j < m; j++) {
+                if(!temp->children[perms[i][j]]) break;
+                ans++;
+                temp = temp->children[perms[i][j]];
+            }
+            cout << ans << " ";
+        }
+        cout << "\n";
     }
     return 0;
 }

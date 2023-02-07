@@ -81,27 +81,39 @@ using namespace std;
 
 */
 
+
+
 int main()
 {
     FIO
     int t;
     cin >> t;
     while(t--) {
-        ll a1, a2, a3, a4;
-        cin >> a1 >> a2 >> a3 >> a4;
-        ll ans = a1;
-        if(a1 == 0) {
-            cout << 1 << "\n";
-            continue;
+        int n;
+        cin >> n;
+        vector<int> arr(n);
+        vector<int> inds(n + 2, -1);
+        for(int i = 0; i < n; i++) {
+            cin >> arr[i];
+            inds[arr[i]] = i;
         }
-        ans += 2 * min(a2, a3);
-        ll left = max(a2, a3) - min(a2, a3);
-        ans += min(a1, left);
-        a1 -= left;
-        if(a1 < 0) ans++;
-        else if(a1 < a4) ans += a1 + 1;
-        else ans += a4;
-        cout << ans << '\n';
+        int i = (n + 1) / 2;
+        int j = n - i + 1;
+        inds[n + 1] = n;
+        while(i >= 1) {
+            if(inds[i] > inds[j]) break;
+            if(i == (n + 1) / 2) {
+                i--, j++;
+                continue;
+            }
+            if(inds[i] > inds[i + 1] || inds[j] < inds[j - 1]) {
+                break;
+            }
+            else {
+                i--, j++;
+            }
+        }
+        cout << i << "\n";
     }
     return 0;
 }
